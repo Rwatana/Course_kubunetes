@@ -1,0 +1,40 @@
+# Version of docker-compose
+version: '3'
+
+# Information on each container
+services:
+
+  # Service on postgres
+  postgres:
+    # Name of container
+    container_name: postgres
+    # Directory path of Dockerfile
+    build:
+      context: .
+      dockerfile: ./docker/postgres/Dockerfile
+    # Setting on postgres
+    environment:
+      - POSTGRES_USER=app_user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=app_db
+
+  # golang アプリケーション
+  app:
+    container_name: app
+    # postgres をビルドした後に app をビルド
+    depends_on:
+      - postgres
+    # Dockerfile を指定
+    build:
+      context: .
+      dockerfile: ./docker/golang/Dockerfile
+    # GOPATHを指定
+    environment:
+      - GOPATH=/go
+    # フォルダ共有（ホストOS:コンテナ）
+    volumes:
+      - ./go:/go/src/app/go/
+    # docker-compose run 実行時に実行されるコマンド
+    command: go run main.go
+    ports: 
+     - "8181:8181"
