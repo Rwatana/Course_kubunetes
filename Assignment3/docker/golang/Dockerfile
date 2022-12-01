@@ -1,5 +1,5 @@
 # Specify the base image for the go app.
-FROM --platform=linux/arm64 golang:1.19
+FROM golang:1.19
 
 WORKDIR /go/src/github.com/postgres-go
 # Copy everything from this project into the filesystem of the container.
