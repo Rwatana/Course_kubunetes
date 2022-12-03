@@ -1,7 +1,7 @@
 # Specify the base image for the go app.
 FROM golang:1.19
 
-WORKDIR /usr/ryoma/go
+WORKDIR /usr/ryoma
 COPY . .
 
 WORKDIR /usr/ryoma/go
